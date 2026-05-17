@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BandSphere - Premium Music Band Booking</title>
+    
+    <!-- CSS & Typography -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamic Glowing Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Frosted Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <a href="/"><i class="fa-solid fa-guitar"></i> BandSphere</a>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#bands"><i class="fa-solid fa-music"></i> Bands</a>
+            <a href="/contact"><i class="fa-solid fa-envelope"></i> Contact</a>
+            {% if session.get('user_id') %}
+                <a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                <a href="/logout" class="btn-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% elif session.get('admin') %}
+                <a href="/admin-dashboard"><i class="fa-solid fa-lock"></i> Admin Panel</a>
+                <a href="/admin-logout" class="btn-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+                <a href="/login" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                <a href="/register" class="btn-register"><i class="fa-solid fa-user-plus"></i> Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Cinematic Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-tagline"><i class="fa-solid fa-circle-nodes"></i> Elevate Your Events</span>
+            <h1>Book World-Class Live Music Bands</h1>
+            <p>Discover and secure exceptional musical talents for weddings, concerts, festivals, and elite corporate parties. Your gateway to acoustic perfection starts here.</p>
+            <div class="hero-actions">
+                <a href="#bands" class="glass-btn"><i class="fa-solid fa-bolt"></i> Explore Bands</a>
+                <a href="/contact" class="glass-btn secondary"><i class="fa-solid fa-paper-plane"></i> Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Bands Section -->
+    <section class="bands" id="bands">
+        
+        <div class="section-header">
+            <span class="section-tag">Acoustic Excellence</span>
+            <h2 class="section-title">Featured Performers</h2>
+            <p class="section-desc">Search, filter, and discover bands that match your vibe and budget. High-fidelity entertainment, just a click away.</p>
+        </div>
+
+        <!-- Search & Filter Glass Box -->
+        <div class="search-box glass-panel">
+            <form method="GET">
+                <div class="search-field-wrapper">
+                    <input type="text" name="search" class="glass-input" placeholder="Search bands by name..." value="{{ request.args.get('search', '') }}">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="filter-field-wrapper">
+                    <select name="category" class="glass-input">
+                        <option value="All">All Categories</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat[0] }}" {% if request.args.get('category') == cat[0] %}selected{% endif %}>
+                                {{ cat[0] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="glass-btn"><i class="fa-solid fa-sliders"></i> Filter</button>
+            </form>
+        </div>
+
+        <!-- Bands Cards Container -->
+        <div class="band-container">
+            {% for band in bands %}
+                <div class="band-card">
+                    <div class="glass-panel band-card-inner">
+                        <div class="band-img-wrapper">
+                            <span class="band-badge">{{ band[2] }}</span>
+                            <img src="{{ url_for('static', filename='uploads/' + band[4]) }}" alt="{{ band[1] }}">
+                        </div>
+                        <div class="band-info">
+                            <h3>{{ band[1] }}</h3>
+                            <p class="band-desc">{{ band[3] }}</p>
+                            
+                            <div class="band-meta">
+                                <div class="band-price">
+                                    <span>Pricing Info</span>
+                                    <span class="band-price-val">₹{{ band[5] }}</span>
+                                </div>
+                                <div class="band-rating">
+                                    <i class="fa-solid fa-star"></i> 4.8 (12 reviews)
+                                </div>
+                            </div>
+
+                            <div class="band-actions">
+                                <a href="/book-band/{{ band[0] }}" class="glass-btn">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </a>
+                                <a href="/add-review/{{ band[0] }}" class="glass-btn secondary">
+                                    <i class="fa-solid fa-pen-nib"></i> Review
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="glass-panel" style="grid-column: 1/-1; padding: 60px; text-align: center;">
+                    <i class="fa-solid fa-music-slash" style="font-size: 50px; color: var(--text-muted); margin-bottom: 20px;"></i>
+                    <h3>No bands found</h3>
+                    <p style="color: var(--text-secondary); margin-top: 10px;">Try adjusting your filters or search keywords.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- User Reviews Section -->
+    <section class="bands" style="padding-top: 20px;">
+        <div class="section-header">
+            <span class="section-tag">Testimonials</span>
+            <h2 class="section-title">What Audiences Say</h2>
+            <p class="section-desc">Real stories from real users who booked their dream live music bands through our platform.</p>
+        </div>
+
+        <div class="reviews-grid">
+            {% for review in reviews %}
+                <div class="review-card glass-panel">
+                    <div class="review-header">
+                        <div class="review-user">
+                            <div class="review-avatar">
+                                {{ review[0][0] | upper }}
+                            </div>
+                            <div class="review-name">{{ review[0] }}</div>
+                        </div>
+                        <div class="review-stars">
+                            {% for i in range(review[1]) %}
+                                <i class="fa-solid fa-star"></i>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="review-text">"{{ review[2] }}"</p>
+                </div>
+            {% else %}
+                <div class="glass-panel" style="grid-column: 1/-1; padding: 40px; text-align: center;">
+                    <p style="color: var(--text-secondary);">No user reviews submitted yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Frosted Premium Footer -->
+    <div class="footer">
+        <div class="footer-grid">
+            <div class="footer-info">
+                <h2 class="logo"><i class="fa-solid fa-guitar"></i> BandSphere</h2>
+                <p>Connecting legendary local & international live bands with extraordinary crowds. Book live, play louder.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-spotify"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="/#bands">Browse Artists</a></li>
+                    <li><a href="/contact">Support</a></li>
+                    <li><a href="/login">User login</a></li>
+                    <li><a href="/admin-login">Administrator Access</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Genres</h3>
+                <ul>
+                    <li><a href="/?category=Rock">Rock & Metal</a></li>
+                    <li><a href="/?category=Jazz">Jazz & Soul</a></li>
+                    <li><a href="/?category=Pop">Pop Hits</a></li>
+                    <li><a href="/?category=Classical">Classical Orchestra</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 BandSphere Booking Platform. Crafted for ultimate UIUX design.</p>
+            <p>Designed with <i class="fa-solid fa-heart" style="color: var(--accent-pink);"></i> for Live Music</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

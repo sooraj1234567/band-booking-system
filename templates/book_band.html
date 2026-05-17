@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book {{ band[1] }} - BandSphere</title>
+    
+    <!-- CSS & Typography -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamic Glowing Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Frosted Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <a href="/"><i class="fa-solid fa-guitar"></i> BandSphere</a>
+        </div>
+        <div class="nav-links">
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/#bands"><i class="fa-solid fa-music"></i> Bands</a>
+            <a href="/contact"><i class="fa-solid fa-envelope"></i> Contact</a>
+            {% if session.get('user_id') %}
+                <a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                <a href="/logout" class="btn-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+                <a href="/login" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Main Screen Layout -->
+    <div class="form-screen">
+        <div class="form-box glass-panel large" style="margin-top: 40px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; max-width: 900px;">
+            
+            <!-- Booking Form Column -->
+            <div>
+                <div class="form-header" style="text-align: left; margin-bottom: 30px;">
+                    <span class="section-tag"><i class="fa-solid fa-calendar-check"></i> Book Live Band</span>
+                    <h2 style="font-size: 28px;">Book {{ band[1] }}</h2>
+                    <p>Provide your event details below to submit a booking request.</p>
+                </div>
+
+                <form method="POST">
+                    <div class="form-group">
+                        <label class="form-label">Select Event Date</label>
+                        <div class="form-icon-wrapper">
+                            <input type="date" name="event_date" class="glass-input" required>
+                            <i class="fa-solid fa-calendar-days" style="top: 50%;"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Event Venue / Location</label>
+                        <div class="form-icon-wrapper">
+                            <input type="text" name="event_location" class="glass-input" placeholder="e.g. Grand Hyatt Banquet Hall, Mumbai" required>
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Additional Message / Special Requests</label>
+                        <div class="form-icon-wrapper">
+                            <textarea name="message" class="glass-input" style="height: 100px; resize: none;" placeholder="Provide any details like duration, genre preferences, or special requests..."></textarea>
+                            <i class="fa-solid fa-comment-dots" style="top: 24px; transform: none;"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="glass-btn" style="width: 100%; margin-top: 10px;">
+                        <i class="fa-solid fa-check"></i> Confirm Booking Request
+                    </button>
+                </form>
+            </div>
+
+            <!-- Unavailable Dates Sidebar Column -->
+            <div class="glass-panel" style="background: rgba(255,255,255,0.02); padding: 30px; border-radius: var(--radius-md); display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+                <h3 style="margin-bottom: 20px; font-size: 18px; color: var(--accent-pink); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-calendar-xmark"></i> Unavailable Dates
+                </h3>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+                    The band is already booked or unavailable on the following dates:
+                </p>
+                <div style="flex-grow: 1; overflow-y: auto; max-height: 250px; padding-right: 5px;">
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px;">
+                        {% for date in unavailable_dates %}
+                            <li style="padding: 10px 15px; background: rgba(255, 75, 43, 0.05); border: 1px solid rgba(255, 75, 43, 0.15); border-radius: var(--radius-sm); color: #ff4b2b; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+                                <i class="fa-solid fa-lock"></i> {{ date[0] }}
+                            </li>
+                        {% else %}
+                            <li style="padding: 15px; text-align: center; color: var(--text-muted); font-size: 13px; border: 1px dashed rgba(255,255,255,0.05); border-radius: var(--radius-sm);">
+                                <i class="fa-solid fa-face-smile" style="font-size: 18px; margin-bottom: 8px; display: block; color: var(--accent-cyan);"></i>
+                                All dates are currently available!
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Frosted Premium Footer -->
+    <div class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 BandSphere Booking Platform. Crafted for ultimate UIUX design.</p>
+            <p>Designed with <i class="fa-solid fa-heart" style="color: var(--accent-pink);"></i> for Live Music</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

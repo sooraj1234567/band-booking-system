@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+
+    <style>
+
+        body{
+            background:#0f0f0f;
+            color:white;
+            font-family:Arial;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .settings-box{
+            width:500px;
+            background:#1a1a1a;
+            padding:40px;
+            border-radius:20px;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+            color:#00ffff;
+        }
+
+        .section{
+            margin-bottom:35px;
+        }
+
+        .section h2{
+            margin-bottom:15px;
+        }
+
+        .btn{
+            width:100%;
+            padding:14px;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:bold;
+            margin-top:10px;
+        }
+
+        .delete-bookings{
+            background:orange;
+            color:black;
+        }
+
+        .delete-account{
+            background:red;
+            color:white;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="settings-box">
+
+        <h1>Settings</h1>
+
+        <!-- Delete Booking History -->
+
+        <div class="section">
+
+            <h2>Delete Booking History</h2>
+
+            <p>
+                Remove all your booking history permanently.
+            </p>
+
+            <a href="/delete-bookings">
+
+                <button class="btn delete-bookings">
+                    Delete Booking History
+                </button>
+
+            </a>
+
+        </div>
+
+        <!-- Delete Account -->
+
+        <div class="section">
+
+            <h2>Delete Account</h2>
+
+            <p>
+                Permanently delete your account and all related data.
+            </p>
+
+            <a href="/delete-account">
+
+                <button class="btn delete-account">
+                    Delete My Account
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

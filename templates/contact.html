@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - BandSphere</title>
+    
+    <!-- CSS & Typography -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamic Glowing Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Frosted Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <a href="/"><i class="fa-solid fa-guitar"></i> BandSphere</a>
+        </div>
+        <div class="nav-links">
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/#bands"><i class="fa-solid fa-music"></i> Bands</a>
+            <a href="/contact" class="active"><i class="fa-solid fa-envelope"></i> Contact</a>
+            {% if session.get('user_id') %}
+                <a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                <a href="/logout" class="btn-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% elif session.get('admin') %}
+                <a href="/admin-dashboard"><i class="fa-solid fa-lock"></i> Admin Panel</a>
+                <a href="/admin-logout" class="btn-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+                <a href="/login" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+                <a href="/register" class="btn-register"><i class="fa-solid fa-user-plus"></i> Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Main Form Screen -->
+    <div class="form-screen">
+        <div class="form-box glass-panel large" style="margin-top: 40px;">
+            <div class="form-header">
+                <span class="section-tag">Get in Touch</span>
+                <h2>Contact Our Support</h2>
+                <p>Have questions about booking a band or listing your artist profile? Write to us!</p>
+            </div>
+
+            <form method="POST">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Your Name</label>
+                        <div class="form-icon-wrapper">
+                            <input type="text" name="name" class="glass-input" placeholder="John Doe" required>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Your Email</label>
+                        <div class="form-icon-wrapper">
+                            <input type="email" name="email" class="glass-input" placeholder="john@example.com" required>
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <div class="form-icon-wrapper">
+                        <input type="text" name="subject" class="glass-input" placeholder="How can we help you?" required>
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Message</label>
+                    <div class="form-icon-wrapper">
+                        <textarea name="message" class="glass-input" style="height: 140px; resize: none;" placeholder="Provide detailed message here..." required></textarea>
+                        <i class="fa-solid fa-comment-dots" style="top: 24px; transform: none;"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="glass-btn" style="width: 100%; margin-top: 10px;">
+                    <i class="fa-solid fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Frosted Premium Footer -->
+    <div class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 BandSphere Booking Platform. Crafted for ultimate UIUX design.</p>
+            <p>Designed with <i class="fa-solid fa-heart" style="color: var(--accent-pink);"></i> for Live Music</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

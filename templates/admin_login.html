@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - BandSphere</title>
+    
+    <!-- CSS & Typography -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamic Glowing Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1" style="background: var(--accent-pink);"></div>
+        <div class="blob blob-2" style="background: var(--accent-violet);"></div>
+    </div>
+
+    <!-- Main Form Screen -->
+    <div class="form-screen">
+        
+        <!-- Frosted Back Button -->
+        <a href="/" class="glass-btn secondary" style="position: absolute; top: 30px; left: 30px; padding: 10px 20px; font-size: 14px;">
+            <i class="fa-solid fa-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="form-box glass-panel">
+            <div class="form-header">
+                <div class="logo" style="justify-content: center; margin-bottom: 20px; font-size: 32px;">
+                    <i class="fa-solid fa-guitar"></i> BandSphere
+                </div>
+                <h2 style="color: var(--accent-pink);"><i class="fa-solid fa-lock"></i> Admin Portal</h2>
+                <p style="margin-top: 5px;">Secure administrator log in for management panel.</p>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label class="form-label">Admin Email</label>
+                    <div class="form-icon-wrapper">
+                        <input type="email" name="email" class="glass-input" placeholder="admin@bandsphere.com" required>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="form-icon-wrapper">
+                        <input type="password" name="password" class="glass-input" placeholder="••••••••" required>
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="glass-btn danger" style="width: 100%; margin-top: 10px;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Authenticate
+                </button>
+            </form>
+
+            <div class="form-footer">
+                Unauthorized access is strictly monitored. <a href="/">Return home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

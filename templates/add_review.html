@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review {{ band[1] }} - BandSphere</title>
+    
+    <!-- CSS & Typography -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamic Glowing Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Frosted Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <a href="/"><i class="fa-solid fa-guitar"></i> BandSphere</a>
+        </div>
+        <div class="nav-links">
+            <a href="/"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/#bands"><i class="fa-solid fa-music"></i> Bands</a>
+            <a href="/contact"><i class="fa-solid fa-envelope"></i> Contact</a>
+            {% if session.get('user_id') %}
+                <a href="/dashboard"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                <a href="/logout" class="btn-login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+                <a href="/login" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Main Form Screen -->
+    <div class="form-screen">
+        <div class="form-box glass-panel">
+            <div class="form-header">
+                <span class="section-tag"><i class="fa-solid fa-star"></i> Review band</span>
+                <h2>Review {{ band[1] }}</h2>
+                <p>Share your experience and help others find the perfect performance!</p>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label class="form-label">Overall Rating</label>
+                    <div class="form-icon-wrapper">
+                        <select name="rating" class="glass-input" required>
+                            <option value="">Select Star Rating</option>
+                            <option value="5">⭐⭐⭐⭐⭐ (5/5 Excellence)</option>
+                            <option value="4">⭐⭐⭐⭐ (4/5 Great)</option>
+                            <option value="3">⭐⭐⭐ (3/5 Average)</option>
+                            <option value="2">⭐⭐ (2/5 Poor)</option>
+                            <option value="1">⭐ (1/5 Terrible)</option>
+                        </select>
+                        <i class="fa-solid fa-award" style="top: 50%;"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Review Message</label>
+                    <div class="form-icon-wrapper">
+                        <textarea name="review" class="glass-input" style="height: 140px; resize: none;" placeholder="Write your review here... How was the sound quality, performance energy, and punctuality?" required></textarea>
+                        <i class="fa-solid fa-pen-fancy" style="top: 24px; transform: none;"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="glass-btn accent-purple" style="width: 100%; margin-top: 10px;">
+                    <i class="fa-solid fa-check"></i> Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Frosted Premium Footer -->
+    <div class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 BandSphere Booking Platform. Crafted for ultimate UIUX design.</p>
+            <p>Designed with <i class="fa-solid fa-heart" style="color: var(--accent-pink);"></i> for Live Music</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
